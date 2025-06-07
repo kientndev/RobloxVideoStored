@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Video Player</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+    #backButton {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid white;
+      border-radius: 6px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+      color: white;
+      transition: background-color 0.3s ease;
+      z-index: 1000;
+    }
+    #backButton:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    video {
+      width: 90%;
+      max-width: 960px;
+      height: auto;
+      border: 4px solid #fff;
+      border-radius: 12px;
+      margin-top: 80px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+    h2 {
+      margin: 40px 0 10px;
+    }
+    .more-videos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px;
+      max-width: 1100px;
+    }
+    .video-thumb {
+      width: 200px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .video-thumb video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 2px solid #fff;
+    }
+    .video-thumb p {
+      margin-top: 6px;
+      font-size: 14px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <a href="RobloxVideoStored.html" id="backButton">← Back to Gallery</a>
+  <video id="videoPlayer" controls autoplay loading="lazy"></video>
+
+  <h2>More Videos</h2>
+  <div class="more-videos" id="moreVideos"></div>
+
+  <script>
+    const videoData = [
+      { src: "videos/Roblox-2025-05-24T07_56_20.584Z.mp4", title: "Getting an Night Owl" },
+      { src: "videos/Roblox-2025-05-24T23_49_10.524Z.mp4", title: "Just got the Night Owl!" },
+      { src: "videos/Cant even beat the Beautiful Pirate Boss.mp4", title: "Blox Fruit Gameplay" },
+      { src: "videos/Roblox-2025-05-31T09_25_14.582Z.mp4", title: "\"Extra Plot\" bug." },
+      { src: "videos/Roblox-2025-05-27T02_57_00.675Z.mp4", title: "Normal Gameplay GAG2" },
+      { src: "videos/Roblox-2025-05-27T03_04_35.527Z.mp4", title: "BloodMoon in GAG" },
+      { src: "videos/Roblox-2025-05-24T12_01_27.378Z.mp4", title: "Exclusive Admin Abuses!" },
+      { src: "videos/Roblox-2025-05-24T09_54_26.921Z.mp4", title: "Is it a deal?" },
+      { src: "videos/Roblox-2025-05-23T06_15_40.871Z.mp4", title: "Early stages." },
+      { src: "videos/Roblox-2025-05-17T02_41_52.598Z.mp4", title: "My pals." },
+      { src: "videos/Roblox-2025-05-23T22_44_47.545Z.mp4", title: "Normal gameplay GAG4." },
+      { src: "videos/Roblox-2025-05-23T06_18_15.332Z.mp4", title: "Early stages 2." },
+      { src: "videos/Roblox-2025-06-03T01_36_01.895Z.mp4", title: "Blue Lock: Using Don Lorenzo" },
+      { src: "videos/Roblox-2025-06-03T01_52_32.438Z.mp4", title: "The Strongest Battlegrounds moments." },
+      { src: "videos/Roblox-2025-06-03T02_16_49.958Z.mp4", title: "GutsAndBlackpowder: San Sebastian Map." },
+      { src: "videos/Roblox-2025-06-03T02_22_01.472Z.mp4", title: "GutsAndBlackpowder: Leipzig Map." },
+      { src: "videos/Roblox-2025-06-03T06_13_19.295Z.mp4", title: "GutsAndBlackpowder: Hougoumont Map." },
+      { src: "videos/Roblox-2025-06-03T07_00_22.686Z.mp4", title: "GutsAndBlackpowder: Saint Petersburg Map." }
+    ];
+
+    const videoPlayer = document.getElementById("videoPlayer");
+    const moreVideos = document.getElementById("moreVideos");
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const videoSrc = urlParams.get('src');
+
+    if (videoSrc) {
+      videoPlayer.src = decodeURIComponent(videoSrc);
+    } else {
+      document.body.innerHTML = "<h2 style='color: white;'>No video selected.</h2>";
+    }
+
+    function loadVideo(src) {
+      videoPlayer.src = src;
+      videoPlayer.play();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Generate video thumbnails with lazy loading
+    videoData.forEach(video => {
+      const thumb = document.createElement("div");
+      thumb.className = "video-thumb";
+      thumb.onclick = () => loadVideo(video.src);
+      thumb.innerHTML = `
+        <video src="${video.src}" muted preload="metadata" loading="lazy"></video>
+        <p>${video.title}</p>
+      `;
+      moreVideos.appendChild(thumb);
+    });
+  </script>
+</body>
+</html>
